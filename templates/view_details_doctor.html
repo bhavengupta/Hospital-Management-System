@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{department}} Department</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+    crossorigin="anonymous">
+    <style>
+    #main{
+        border: 2px solid black;
+        margin-top: 10px
+    }
+    #canvas{
+        border: 2px solid black;
+        width:60%;
+        height:800px;
+        margin:auto;
+    }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="canvas">
+            <h4>{{department}} Department Doctors</h4>
+            <br>
+            {% if doctors %}
+            {% for doctor in doctors %}
+            {% if department == 'Cardiology' %}
+            <p>{{doctor.Doctor_name}} is one of the best doctors in the field of Cardiology. 
+            The doctor have {{doctor.Experience}} years of experience in this field as a specialist. </p>
+            {% elif department == 'Oncology' %}
+            <p>{{doctor.Doctor_name}} is one of the best doctors in the field of Oncology. 
+            The doctor have {{doctor.Experience}} years of experience in this field as a specialist. </p>
+            {% elif department == 'General' %}
+            <p>{{doctor.Doctor_name}} have a good track record as a General doctor. 
+            The doctor have {{doctor.Experience}} years of experience in this field and have successfully treated thousands of patients till date. </p>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            <div id="table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Doctor ID</th>
+                            <th scope="col">Doctor Name</th>
+                            <th scope="col">Doctor Experience</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if doctors %}
+                            {% for doctor in doctors %}
+                        <tr>
+                            <td>{{doctor.Doctor_id}}</td>
+                            <td>{{doctor.Doctor_name}}</td>
+                            <td>{{doctor.Experience}}</td>
+                        </tr>    
+                            {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center">No Doctors Found!</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

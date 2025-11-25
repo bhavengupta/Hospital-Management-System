@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile Page</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+    crossorigin="anonymous">
+</head>
+<body>
+    <div id="main">
+        <div id="canvas">
+            <div id="form-body">
+                <h2>Update Patient</h2>
+                {% if error %}
+                <div><strong>{{error}}</strong></div>
+                {% endif %}
+                {% if patient %}
+                <form action="/patient/{{patient.Patient_id}}/edit-profile" method="post">
+                    <div class="mb-3">
+                        <label for="Pname" class="form-label">Patient Name</label>
+                        <input type="text" class="form-control" id="Pname" name="patient_name" value="{{patient.Patient_name}}" required>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Update">
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
