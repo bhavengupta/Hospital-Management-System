@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Page</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+    crossorigin="anonymous">
+    <style>
+        #form-body{
+            height:646px;
+            margin-top:108px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="canvas">
+            <div id="form-body">
+                <h4>Update Patient History</h4>
+                {% if appointment %}
+                <p>Appointment id: {{appointment.Appointment_id}}</p>
+                <p>Patient Name: {{appointment.patient.Patient_name}}</p>
+                <p>Date: {{appointment.Date}}</p>
+                <p>Time: {{appointment.Time}}</p>
+                {% endif %}
+                <form action="/doctor/update" method="post">
+                    <input type="hidden" name="appointment_id" value="{{appointment.Appointment_id}}">
+                    <input type="hidden" name="doctor_id" value="{{doctor.Doctor_id}}">
+                    <div class="mb-3">
+                        <label for="Test" class="form-label">Test-Done</label>
+                        <input type="text" class="form-control" id="Test" name="Test" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Diagnosis" class="form-label">Diagnosis</label>
+                        <input type="text" class="form-control" id="Diagnosis" name="Diagnosis" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Prescription" class="form-label">Prescription</label>
+                        <input type="text" class="form-control" id="Prescription" name="Prescription" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Medicines" class="form-label">Medicines</label>
+                        <textarea class="form-control" id="Medicines" rows="3" name="Medicines"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Update">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

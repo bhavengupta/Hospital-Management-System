@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+    crossorigin="anonymous">
+</head>
+<body>
+
+            <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand">Welcome {{this_user.username}}!</a>
+                    <a class="nav-link" href="/login">Log out</a>
+                    <form action='/admin' class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Doctor, Patient.." aria-label="Search" 
+                        name="Search" value="{{request.args.get('Search','')}}">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>  
+            </nav>
+            <form action="/create" method="post">
+            <div class="book_ad">   
+                <button class="btn btn-primary" type="submit">Create</button>
+            </div>
+            </form>
+            <div id="content">
+                <h3 class="headings">Registered Doctors</h3>
+                <span class="badge bg-primary">Doctors registered: {{count.total_doc}}</span>
+                {% for doctor in all_doc %}
+                <nav class="navbar navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand">{{doctor.Doctor_name}}</a>
+                        <form action="/admin/edit-doctor/{{doctor.Doctor_id}}" method="get">
+                            <button class="btn btn-outline-primary" type="submit">edit</button>
+                        </form>
+                        <form action="/admin/delete-doctor/{{doctor.Doctor_id}}" method="post">
+                            <button class="btn btn-outline-danger" type="submit">delete</button>
+                        </form>
+                        {% if not doctor.blacklisted %}
+                        <form action="/admin/blacklist-doctor/{{doctor.Doctor_id}}" method="post">
+                            <button class="btn btn-outline-secondary" type="submit">blacklist </button>
+                        </form>
+                        {% else %}
+                            <span class="badge bg-secondary">{{doctor.Doctor_name}} is blacklisted</span>
+                        {% endif %}    
+                    </div>
+                </nav>
+                {% endfor %}
+                <div id="content"><br>
+                <h3 class="headings">Registered Patients</h3>
+                <span class="badge bg-primary">Patients registered: {{count.total_pat}}</span>
+                {% for patient in all_pat %}
+                <nav class="navbar navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand">{{patient.Patient_name}}</a>
+                        <form action="/admin/edit-patient/{{patient.Patient_id}}" method="get">
+                            <button class="btn btn-outline-primary" type="submit">edit</button>
+                        </form>
+                        <form action="/admin/delete-patient/{{patient.Patient_id}}" method="post">
+                            <button class="btn btn-outline-danger" type="submit">delete </button>
+                        </form>
+                        {% if not patient.blacklisted %}
+                        <form action="/admin/blacklist-patient/{{patient.Patient_id}}">
+                            <button class="btn btn-outline-secondary" type="submit">blacklist </button>
+                        </form>
+                        {% else %}
+                        <span class="badge btn-secondary">{{patient.Patient_name}} is blacklisted</span>
+                        {% endif %}
+                    </div>
+                </nav>
+                {% endfor %}
+            </div>
+                    <div id="content"><br>
+                        <h3 class="headings">Upcoming Appointments</h3>
+                        <span class="badge bg-primary">Upcoming Appointments: {{upcoming_count}}</span>
+                        <div id="table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Appointment_id</th>
+                                    <th scope="col">Patient Name</th>
+                                    <th scope="col">Doctor Name</th>
+                                    <th scope="col">Department Name</th>
+                                    <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% if appointments %}
+                                    {% for appointment in appointments %}
+                                    <tr>
+                                        <td>{{appointment.Appointment_id}}</td>
+                                        <td>{{appointment.patient.Patient_name}}</td>
+                                        <td>{{appointment.doctor.Doctor_name}}</td>
+                                        <td>{{appointment.doctor.Department_name}}</td>
+                                        <td>{{appointment.Status}}</td>
+                                    </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">No Upcoming Appointments!</td>
+                                    </tr>
+                                {% endif %}    
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>    
+                        <div id="content"><br>
+                        <h3 class="headings">Past Appointments</h3>
+                        <span class="badge bg-primary">Past Appointments: {{past_count}}</span>
+                        <div id="table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Appointment_id</th>
+                                    <th scope="col">Patient Name</th>
+                                    <th scope="col">Doctor Name</th>
+                                    <th scope="col">Department Name</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Patient History</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for appoint in past_appointments %}
+                                    <tr>
+                                        <td>{{appoint.Appointment_id}}</td>
+                                        <td>{{appoint.patient.Patient_name}}</td>
+                                        <td>{{appoint.doctor.Doctor_name}}</td>
+                                        <td>{{appoint.doctor.Department_name}}</td>
+                                        <td>{{appoint.Date}}</td>
+                                        <td>{{appoint.Status}}</td>
+                                        <form action="/patient/{{appoint.patient.Patient_id}}/history">
+                                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                <td><button class="btn btn-primary me-md-2" type="submit">view</button></td>
+                                            </div>
+                                        </form>
+                                    </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center">No Past Appointments!</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                                </table>
+                    </div>
+            </div>  
+        </div>
+    </div>
+</body>
+</html>

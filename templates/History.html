@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>History Page</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+    crossorigin="anonymous">
+</head>
+<body>
+    <div id="main">
+        <div id="canvas">
+                <div class="Patient-History-heading">
+                    <h1>Patient History</h1><br>
+                    {% if error %}
+                    <div><strong>{{error}}</strong></div>
+                    {% endif %}
+                    {% for patient in all_pat %}
+                    <p>Patient's Name: {{patient.Patient_name}}<p>
+                    <p>Doctor's Name: {{patient.Doctor_name}}</p>
+                    <p>Department: {{patient.Department_name}}</p>
+                    {% endfor %}
+                </div><br>
+                <div id="content"><br>
+                    <div id="table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">Visit.No</th>
+                                <th scope="col">Tests Done</th>
+                                <th scope="col">Diagnosis</th>
+                                <th scope="col">Prescription</th>
+                                <th scope="col">Medicines</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if alltreatment %}
+                                    {% for treatment in alltreatment %}
+                                <tr>
+                                    <td>{{ treatment.Treatment_id }}</td>
+                                    <td>{{ treatment.Tests_Done }}</td>
+                                    <td>{{ treatment.Diagnosis }}</td>
+                                    <td>{{ treatment.Prescription }}</td>
+                                    <td>{{ treatment.Medicines }}</td>
+                                </tr>
+                                {% endfor %} 
+                            </tbody>
+                        </table>  
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">No treatment record found!</td>
+                        </tr>
+                        {% endif %}
+                    </div>
+                </div>    
+</body>     
+</html>
