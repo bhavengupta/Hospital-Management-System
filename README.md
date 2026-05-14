@@ -169,3 +169,7 @@ Developed by <b>Bhaven Gupta</b>
 <p>
 If you found this project useful, consider giving it a ⭐ on GitHub.
 </p>
+
+<p>
+<b>© 2026 Bhaven Gupta. All Rights Reserved.</b>
+</p>
